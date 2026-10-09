@@ -817,3 +817,27 @@ button {
     margin-left: 0;
   }
 }
+
+/* Send action */
+.send-button {
+  border: 1px solid #f1d2c5;
+  border-radius: 10px;
+  padding: 12px 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff1eb;
+  color: #c95134;
+  font: 600 12px var(--sans);
+  transition: background .2s, transform .2s;
+}
+.send-button:hover {
+  background: #fae2d8;
+  transform: translateY(-1px);
+}
+.send-button:disabled {
+  opacity: .65;
+  cursor: wait;
+  transform: none;
+}

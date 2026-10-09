@@ -15,7 +15,7 @@ function notify(message) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
 function countWords(text) {
-  return text.trim() ? text.trim().split(/\\s+/).length : 0;
+  return text.trim() ? text.trim().split(/\s+/).length : 0;
 }
 function updateWordCount() {
   $("wordCount").textContent = `${countWords(textArea.value)} words`;
@@ -58,7 +58,7 @@ $("addSourceButton").addEventListener("click", () => fileInput.click());
 fileInput.addEventListener("change", async (e) => {
   let added = 0;
   for (const file of Array.from(e.target.files || [])) {
-    if (!/\\.(txt|md|text)$/i.test(file.name)) {
+    if (!/\.(txt|md|text)$/i.test(file.name)) {
       notify(`${file.name}: this demo supports .txt and .md files.`);
       continue;
     }
@@ -148,7 +148,7 @@ $("loadSample").addEventListener("click", () => {
     "Sample text loaded. Choose settings and generate a summary.";
 });
 function sentencesOf(text) {
-  return (text.replace(/\\s+/g, " ").match(/[^.!?]+[.!?]?/g) || [])
+  return (text.replace(/\s+/g, " ").match(/[^.!?]+[.!?]?/g) || [])
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -210,8 +210,11 @@ function renderSummary(items, format) {
     });
     out.append(ul);
   }
-  lastSummary = items.join("\\n\\n");
+  lastSummary = items.join("\n\n");
 }
+// Both actions submit the entered notes to the local summarizer.
+$("sendButton").addEventListener("click", () => $("generateButton").click());
+
 $("generateButton").addEventListener("click", () => {
   const text = textArea.value.trim();
   if (!text) {
