@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyAI - Create Account</title>
+
+    <link rel="stylesheet" href="registration.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Left Section -->
+        <div class="info-section">
+
+            <div class="logo">
+                <span class="logo-icon">✦</span>
+                <span>StudyAI</span>
+            </div>
+
+            <div class="info-content">
+                <h1>Learn smarter.<br>Achieve more.</h1>
+
+                <p>
+                    Your intelligent study companion designed to help
+                    you learn, organize and understand better.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        <span>✓</span>
+                        <p>AI-powered study assistance</p>
+                    </div>
+
+                    <div class="feature">
+                        <span>✓</span>
+                        <p>Personalized learning experience</p>
+                    </div>
+
+                    <div class="feature">
+                        <span>✓</span>
+                        <p>Study anytime, anywhere</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Registration Section -->
+        <div class="register-section">
+
+            <div class="register-card">
+
+                <div class="mobile-logo">
+                    <span class="logo-icon">✦</span>
+                    StudyAI
+                </div>
+
+                <h2>Create your account</h2>
+
+                <p class="subtitle">
+                    Start your smarter learning journey today.
+                </p>
+
+
+                <form id="registerForm">
+
+                    <!-- Username -->
+                    <div class="input-group">
+
+                        <label for="username">Username</label>
+
+                        <div class="input-box">
+                            <span class="input-icon">👤</span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                            >
+                        </div>
+
+                        <small class="error" id="usernameError"></small>
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="input-group">
+
+                        <label for="email">Gmail</label>
+
+                        <div class="input-box">
+                            <span class="input-icon">✉</span>
+
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="you@gmail.com"
+                                autocomplete="email"
+                            >
+                        </div>
+
+                        <small class="error" id="emailError"></small>
+
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="input-group">
+
+                        <label for="password">Password</label>
+
+                        <div class="input-box">
+                            <span class="input-icon">🔒</span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Create a password"
+                                autocomplete="new-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                id="togglePassword"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                        <div class="password-strength">
+                            <div id="strengthBar"></div>
+                        </div>
+
+                        <small id="passwordHint">
+                            Use at least 8 characters
+                        </small>
+
+                        <small class="error" id="passwordError"></small>
+
+                    </div>
+
+
+                    <!-- Terms -->
+                    <div class="terms">
+
+                        <label>
+                            <input type="checkbox" id="terms">
+
+                            <span>
+                                I agree to the
+                                <a href="#">Terms of Service</a>
+                                and
+                                <a href="#">Privacy Policy</a>.
+                            </span>
+
+                        </label>
+
+                        <small class="error" id="termsError"></small>
+
+                    </div>
+
+
+                    <!-- Button -->
+                    <button type="submit" class="register-btn">
+                        Create Account
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+
+                <div class="divider">
+                    <span>Already have an account?</span>
+                </div>
+
+                <a href="../login-page/index.html" class="login-link">
+                    Sign in to StudyAI
+                </a>
+
+                <p class="security">
+                    🔒 Your information is securely protected.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="registration.js"></script>
+
+</body>
+</html>

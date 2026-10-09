@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyBase | AI Study Assistant</title>
+<link rel="stylesheet" href="landing_page.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">♧</div>
+      <div class="brand-name">studybase</div>
+    </div>
+
+    <div class="section-label">STUDY DESK</div>
+
+    
+<nav class="nav">
+  <a href="#"
+     class="nav-item active"
+     data-tool="Ask your notes">
+     <strong id="breadcrumbTitle">
+    <span class="nav-icon">☏</span>
+    <span>Ask your notes</span>
+    </strong>
+    <span class="nav-dot"></span>
+  </a>
+
+  <a href="#"
+     class="nav-item"
+     data-tool="Summarize">
+    <span class="nav-icon">▤</span>
+    <span>Summarize</span>
+  </a>
+
+  <a href="../quiz-page/quiz-index.html"
+     class="nav-item"
+     data-tool="Practice quiz">
+    <span class="nav-icon">♧</span>
+    <span>Practice quiz</span>
+  </a>
+
+  <a href="../key-topics/key-topics.html"
+     class="nav-item"
+     data-tool="Key topics">
+    <span class="nav-icon">◎</span>
+    <span>Key topics</span>
+  </a>
+
+  <a href="#"
+     class="nav-item"
+     data-tool="Study plan">
+    <span class="nav-icon">▧</span>
+    <span>Study plan</span>
+  </a>
+</nav>
+
+
+    <div class="sidebar-divider"></div>
+
+    <div class="section-label">YOUR LIBRARY</div>
+
+    <div class="library-heading">
+      <div>Study sources <span class="count" id="sourceCount">0</span></div>
+      <button id="addSource" aria-label="Add source">+</button>
+    </div>
+
+    <label class="upload-box" for="fileInput">
+      <div class="upload-icon">⇧</div>
+      <strong>Add notes or a PDF</strong>
+      <small>Drop a file or browse · up to 10 MB</small>
+    </label>
+
+    <input id="fileInput" type="file"
+           accept=".pdf,.txt,.md,.doc,.docx"
+           multiple hidden>
+
+    <p class="library-note">
+      Select sources to ground answers and study tools.
+    </p>
+
+    <p class="library-note" id="libraryMessage">
+      ▤ Your library is ready for its first source.
+     
+<div id="fileList" class="file-list"></div>
+
+    </p>
+
+    <div class="sidebar-bottom">
+      <span class="status-dot"></span>
+      Private to your account
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="menu-button" id="menuButton">☰</button>
+        <div class="breadcrumb">
+          Study desk &nbsp; / &nbsp;
+
+          <strong id="breadcrumbTitle">Ask For Question</strong>
+        </div>
+      </div>
+
+      <div class="top-right">
+        <span class="privacy-text">
+          <span class="status-dot"></span>
+          Sources stay in your workspace
+        </span>
+       
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div>
+          <div class="eyebrow">
+             YOUR STUDY DESK
+          </div>
+
+          <h1>
+            Make your notes<br>
+            <em>work smarter.</em>
+          </h1>
+
+          <p class="hero-description">
+            Bring your course material into focus. Ask a question,
+            find the page, keep the insight.
+          </p>
+        </div>
+
+        <div class="hero-note">
+          <div class="hero-arrow">↘</div>
+          <div class="hero-count"><strong>01</strong> / 04</div>
+          <p>Read closer.<br>Remember longer.</p>
+        </div>
+      </section>
+
+      
+<article class="ai-chat-card">
+
+  <div class="ai-chat-header">
+    <div class="ai-avatar">✦</div>
+
+    <div class="ai-chat-heading">
+      <h3>Ask your notes</h3>
+      <p><span class="online-dot"></span> Your personal study assistant</p>
+    </div>
+
+    <button type="button" class="chat-clear-btn" id="clearChat"
+      title="Clear conversation">↻</button>
+  </div>
+
+  <div class="chat-source-bar">
+    <div>
+      <span class="chat-source-icon">▤</span>
+      <span id="chatSourceLabel">No study source selected</span>
+    </div>
+    <button type="button" id="chatAddSource">+ Add PDF</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages" aria-live="polite">
+    <div class="chat-welcome" id="chatWelcome">
+      <div class="welcome-icon">✦</div>
+      <h3>What would you like to learn?</h3>
+      <p>Ask questions about your notes, understand difficult concepts,
+        or get a simple explanation.</p>
+
+      <div class="suggested-questions">
+        <button type="button" class="suggestion">
+          Explain the main concepts
+        </button>
+        <button type="button" class="suggestion">
+          Summarize my notes
+        </button>
+        <button type="button" class="suggestion">
+          Give me important questions
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <form id="aiChatForm">
+      <textarea
+        id="aiChatInput"
+        rows="1"
+        maxlength="2000"
+        placeholder="Ask anything about your study material..."
+        aria-label="Ask a study question"
+        required
+      ></textarea>
+
+      <div class="chat-input-bottom">
+        <div class="chat-input-hint">
+          <span>↵</span> Enter to send · Shift + Enter for new line
+        </div>
+
+        <button type="submit" id="aiSendButton" aria-label="Send message">
+          <span>↑</span>
+        </button>
+      </div>
+    </form>
+
+    <p class="chat-disclaimer">
+      AI responses will be connected when the backend is integrated.
+    </p>
+  </div>
+
+</article>
+
+
+      <!-- PROGRESS BAR INSIDE DASHBOARD CONTENT -->
+      <section class="progress-section">
+
+        <div class="progress-top">
+          <div>
+            <div class="progress-title">Your study progress</div>
+            <p class="progress-caption" id="progressCaption">
+              Add your first notes to begin your learning journey.
+            </p>
+          </div>
+
+          <div class="progress-percent" id="progressPercent">0%</div>
+        </div>
+
+        <div class="progress-track"
+             role="progressbar"
+             aria-label="Study progress"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuenow="0"
+             id="progressTrack">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="progress-bottom">
+          <span id="progressLeft">0 of 4 milestones completed</span>
+          <span id="progressRight">Keep learning ✳</span>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="ai-chat.js"></script>
+<script src="landing_page.js"></script>
+
+</body>
+</html>
