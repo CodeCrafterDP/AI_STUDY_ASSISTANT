@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyBase | Key Topics</title>
+  <link rel="stylesheet" href="key-topics.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-icon">♧</span>
+      <span>studybase</span>
+    </a>
+
+    <p class="section-label">STUDY DESK</p>
+    <nav class="navigation">
+      <a href="../Landing-page/landing_page.html" class="nav-link"><span>☏</span> Ask your notes</a>
+      <a href="summarize.html" class="nav-link"><span>▤</span> Summarize</a>
+      <a href="../quiz-page/quiz-index.html" class="nav-link"><span>♧</span> Practice quiz</a>
+      <a href="../key-topics/key-topics.html" class="nav-link active"><span>◎</span> Key topics <i></i></a>
+      <a href="study-plan.html" class="nav-link"><span>▨</span> Study plan</a>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+    <p class="section-label">YOUR LIBRARY</p>
+
+    <div class="library-heading">
+      <span>Study sources</span>
+      <span class="count" id="sourceCount">0</span>
+      <button id="addSource" class="plus" type="button" title="Add PDF" aria-label="Add PDF">+</button>
+    </div>
+
+    <label class="upload-box" for="pdfInput">
+      <span class="upload-icon">⇧</span>
+      <strong>Add notes or a PDF</strong>
+      <small>Browse · PDF up to 10 MB</small>
+    </label>
+    <input type="file" id="pdfInput" accept="application/pdf,.pdf" multiple hidden>
+
+    <div id="sourceList" class="source-list"></div>
+    <p class="library-help">Select sources to explore their topics and study material.</p>
+    <p class="library-footer" id="libraryFooter">▤ Your library is ready for its first source.</p>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">YOUR STUDY DESK /</span>
+        <span class="eyebrow current"> KEY TOPICS</span>
+      </div>
+      <div class="top-actions">
+        <span class="ai-status"><span></span> Study Assistant</span>
+        <div class="avatar">J</div>
+      </div>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow orange">STUDY SMARTER</p>
+        <h1>Key <span>Topics</span></h1>
+        <p class="subtitle">Discover important concepts from your uploaded PDFs.</p>
+      </div>
+      <label for="mainPdfInput" class="primary-button">＋ Upload PDF</label>
+      <input type="file" id="mainPdfInput" accept="application/pdf,.pdf" multiple hidden>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <div class="stat-icon orange-bg">▤</div>
+        <div><p>PDF SOURCES</p><h2 id="pdfTotal">0</h2></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon green-bg">◎</div>
+        <div><p>KEY TOPICS</p><h2 id="topicTotal">0</h2></div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon cream-bg">✦</div>
+        <div><p>CONCEPT CANDIDATES</p><h2 id="conceptTotal">0</h2></div>
+      </article>
+    </section>
+
+    <section class="panel source-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Your uploaded PDFs</h2>
+          <p>Select a PDF to explore its detected topics.</p>
+        </div>
+        <span class="file-badge">PDF LIBRARY</span>
+      </div>
+      <div id="pdfCards" class="pdf-grid">
+        <div class="empty-state">
+          <div class="empty-icon">⇧</div>
+          <h3>No PDF uploaded yet</h3>
+          <p>Upload your class notes or textbook PDF to get started.</p>
+          <label for="mainPdfInput" class="secondary-button">Choose a PDF</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel topics-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow orange">YOUR STUDY MATERIAL</p>
+          <h2 id="selectedTitle">Important topics</h2>
+          <p id="selectedSubtitle">Choose an uploaded PDF to view its key topics.</p>
+        </div>
+        <span class="ai-chip">✦ TOPIC INSIGHTS</span>
+      </div>
+      <div id="topicContent">
+        <div class="topic-placeholder">
+          <div class="placeholder-icon">◎</div>
+          <h3>Your key topics will appear here</h3>
+          <p>Choose a PDF above to explore the concepts you need to study.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>Made for focused learning <span>✳</span> StudyBase</footer>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="key-topics.js"></script>
+</body>
+</html>
