@@ -1,14 +1,7 @@
-
-// ========================================
-// STUDYBASE - LANDING PAGE JAVASCRIPT
-// ========================================
+"use strict";
 
 const sidebar = document.getElementById("sidebar");
 const menuButton = document.getElementById("menuButton");
-
-// ----------------------------------------
-// MOBILE SIDEBAR
-// ----------------------------------------
 
 if (sidebar && menuButton) {
   menuButton.addEventListener("click", () => {
@@ -16,64 +9,42 @@ if (sidebar && menuButton) {
   });
 }
 
-// ----------------------------------------
-// NAVIGATION
-// Real HTML links navigate normally.
-// Placeholder links do not change the page title.
-// ----------------------------------------
-
-document.querySelectorAll(".nav-item").forEach(item => {
+// Navigation
+document.querySelectorAll(".nav-item").forEach((item) => {
   item.addEventListener("click", function (event) {
     const href = this.getAttribute("href");
 
-    // Allow links to other HTML pages to work normally.
     if (href && href !== "#") {
+      sidebar?.classList.remove("open");
       return;
     }
 
-    // Prevent navigation only for placeholder links.
     event.preventDefault();
-
-    const toolName = this.dataset.tool;
-
-    alert(toolName + " page will be added later.");
-
-    if (sidebar) {
-      sidebar.classList.remove("open");
-    }
+    alert((this.dataset.tool || "This") + " page will be added later.");
+    sidebar?.classList.remove("open");
   });
 });
 
-// ----------------------------------------
-// FILE UPLOAD
-// ----------------------------------------
-
+// File library
 const fileInput = document.getElementById("fileInput");
-
 let uploadedFiles = [];
 
 if (fileInput) {
   fileInput.addEventListener("change", () => {
-    const files = Array.from(fileInput.files);
+    const files = Array.from(fileInput.files || []);
 
-    const validFiles = files.filter(file => {
-      const validType =
-        /\.(pdf|txt|md|doc|docx)$/i.test(file.name);
-
-      const validSize = file.size <= 10 * 1024 * 1024;
-
-      if (!validType) {
+    const validFiles = files.filter((file) => {
+      if (!/\.(pdf|txt|md|doc|docx)$/i.test(file.name)) {
         alert(file.name + " is not a supported file type.");
         return false;
       }
 
-      if (!validSize) {
+      if (file.size > 10 * 1024 * 1024) {
         alert(file.name + " exceeds the 10 MB limit.");
         return false;
       }
 
-      // Avoid duplicate selection in the current session.
-      const duplicate = uploadedFiles.some(existing =>
+      const duplicate = uploadedFiles.some((existing) =>
         existing.name === file.name &&
         existing.size === file.size &&
         existing.lastModified === file.lastModified
@@ -89,209 +60,144 @@ if (fileInput) {
 
     uploadedFiles.push(...validFiles);
 
-    updateLibrary();
+    // Notify AI chat about each uploaded file.
+    validFiles.forEach((file) => {
+      window.dispatchEvent(
+        new CustomEvent("studybase:file-selected", {
+          detail: { file }
+        })
+      );
+    });
 
-    // Allows selecting the same file again after deleting it.
+    updateLibrary();
     fileInput.value = "";
   });
 }
-
-// ----------------------------------------
-// UPDATE LIBRARY
-// ----------------------------------------
 
 function updateLibrary() {
   const count = uploadedFiles.length;
 
   renderFileList();
 
-  const sourceCount = document.getElementById("sourceCount");
-  const selectedCount = document.getElementById("selectedCount");
-  const materialCount = document.getElementById("materialCount");
-  const materialDescription =
-    document.getElementById("materialDescription");
-  const libraryMessage = document.getElementById("libraryMessage");
-  const indexStatus = document.getElementById("indexStatus");
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  };
+
+  setText("sourceCount", count);
+  setText(
+    "selectedCount",
+    `${count} ${count === 1 ? "source" : "sources"} selected`
+  );
+  setText("materialCount", String(count).padStart(2, "0"));
+  setText(
+    "materialDescription",
+    `${count} ${count === 1 ? "file" : "files"} in your library.`
+  );
+  setText(
+    "indexStatus",
+    count ? "FILES ADDED" : "WAITING"
+  );
+  setText(
+    "recentMessage",
+    count
+      ? "Files added. Ask a question in the chat to get started."
+      : "Your first source-linked guide will appear here."
+  );
+  setText(
+    "progressCaption",
+    count
+      ? "Your study material has been added."
+      : "Add your first notes to begin your learning journey."
+  );
+
   const miniProgress = document.getElementById("miniProgress");
-  const recentMessage = document.getElementById("recentMessage");
-  const progressCaption = document.getElementById("progressCaption");
+  if (miniProgress) miniProgress.style.width = count ? "35%" : "0%";
 
-  if (sourceCount) {
-    sourceCount.textContent = count;
-  }
-
-  if (selectedCount) {
-    selectedCount.textContent =
-      count + (count === 1 ? " source selected" : " sources selected");
-  }
-
-  if (materialCount) {
-    materialCount.textContent = String(count).padStart(2, "0");
-  }
-
-  if (materialDescription) {
-    materialDescription.textContent =
-      count + (count === 1
-        ? " file in your library."
-        : " files in your library.");
-  }
-
+  // Keep the file list outside the status text.
+  const libraryMessage = document.getElementById("libraryMessage");
   if (libraryMessage) {
-    libraryMessage.textContent = count
-      ? "Your library contains " + count + " file(s)."
+    let status = document.getElementById("libraryStatusText");
+
+    if (!status) {
+      status = document.createElement("span");
+      status.id = "libraryStatusText";
+      libraryMessage.prepend(status);
+    }
+
+    status.textContent = count
+      ? `Your library contains ${count} file(s).`
       : "▤ Your library is ready for its first source.";
   }
 
-  if (indexStatus) {
-    indexStatus.textContent = count ? "FILES ADDED" : "WAITING";
-  }
-
-  if (miniProgress) {
-    miniProgress.style.width = count ? "35%" : "0%";
-  }
-
-  if (recentMessage) {
-    recentMessage.textContent = count
-      ? "Files added. Connect an AI service to generate a study guide."
-      : "Your first source-linked guide will appear here.";
-  }
-
-  if (progressCaption) {
-    progressCaption.textContent = count
-      ? "Your study material has been added. Continue to your next milestone."
-      : "Add your first notes to begin your learning journey.";
-  }
-
-  updateProgress(count > 0 ? 1 : 0);
+  updateProgress(count ? 1 : 0);
 }
-
-// ----------------------------------------
-// PROGRESS BAR
-// ----------------------------------------
 
 function updateProgress(milestones) {
-  const percent = Math.min(
-    100,
-    Math.round((milestones / 4) * 100)
+  const percent = Math.min(100, Math.round((milestones / 4) * 100));
+
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  };
+
+  const fill = document.getElementById("progressFill");
+  const track = document.getElementById("progressTrack");
+
+  if (fill) fill.style.width = percent + "%";
+  if (track) track.setAttribute("aria-valuenow", percent);
+
+  setText("progressPercent", percent + "%");
+  setText("progressLeft", `${milestones} of 4 milestones completed`);
+  setText(
+    "progressRight",
+    percent === 100 ? "All milestones complete ✓" : "Keep learning ✳"
   );
-
-  const progressFill = document.getElementById("progressFill");
-  const progressPercent = document.getElementById("progressPercent");
-  const progressTrack = document.getElementById("progressTrack");
-  const progressLeft = document.getElementById("progressLeft");
-  const progressRight = document.getElementById("progressRight");
-
-  if (progressFill) {
-    progressFill.style.width = percent + "%";
-  }
-
-  if (progressPercent) {
-    progressPercent.textContent = percent + "%";
-  }
-
-  if (progressTrack) {
-    progressTrack.setAttribute("aria-valuenow", percent);
-  }
-
-  if (progressLeft) {
-    progressLeft.textContent =
-      milestones + " of 4 milestones completed";
-  }
-
-  if (progressRight) {
-    progressRight.textContent =
-      percent === 100 ? "All milestones complete ✓" : "Keep learning ✳";
-  }
 }
 
-// ----------------------------------------
-// ADD SOURCE BUTTONS
-// ----------------------------------------
+// Add-source buttons
+document.getElementById("addSource")?.addEventListener("click", () => {
+  fileInput?.click();
+});
 
-const addSourceButton = document.getElementById("addSource");
-const libraryButton = document.getElementById("libraryButton");
+document.getElementById("libraryButton")?.addEventListener("click", () => {
+  fileInput?.click();
+});
 
-if (addSourceButton && fileInput) {
-  addSourceButton.addEventListener("click", () => {
-    fileInput.click();
-  });
-}
-
-if (libraryButton && fileInput) {
-  libraryButton.addEventListener("click", () => {
-    fileInput.click();
-  });
-}
-
-// ----------------------------------------
-// SOURCE SELECTOR
-// ----------------------------------------
-
-const sourceSelector = document.getElementById("sourceSelector");
-
-if (sourceSelector) {
-  sourceSelector.addEventListener("click", () => {
-    if (uploadedFiles.length === 0) {
-      alert("Please add notes or a PDF to your study library first.");
-
-      if (fileInput) {
-        fileInput.click();
-      }
-
-      return;
-    }
-
-    alert(
-      "Files in your library:\n" +
-      uploadedFiles.map(file => file.name).join("\n")
-    );
-  });
-}
-
-// ----------------------------------------
-// GET STARTED BUTTON
-// ----------------------------------------
-
-const startButton = document.getElementById("startButton");
-
-if (startButton) {
-  startButton.addEventListener("click", () => {
-    const actionMessage = document.getElementById("actionMessage");
-
-    if (uploadedFiles.length === 0) {
-      if (actionMessage) {
-        actionMessage.textContent =
-          "First add your notes or PDF to get started.";
-      }
-
-      if (fileInput) {
-        fileInput.click();
-      }
-
-      return;
-    }
-
-    if (actionMessage) {
-      actionMessage.textContent =
-        "Your files are ready. Connect your AI backend to continue.";
-    }
-  });
-}
-
-// ----------------------------------------
-// RENDER FILE LIST + DELETE OPTION
-// ----------------------------------------
-
-function renderFileList() {
-  const fileList = document.getElementById("fileList");
-
-  if (!fileList) {
+// Source selector
+document.getElementById("sourceSelector")?.addEventListener("click", () => {
+  if (!uploadedFiles.length) {
+    alert("Please add notes or a PDF first.");
+    fileInput?.click();
     return;
   }
 
+  alert("Files in your library:\n" +
+    uploadedFiles.map((file) => file.name).join("\n"));
+});
+
+// Get started
+document.getElementById("startButton")?.addEventListener("click", () => {
+  const message = document.getElementById("actionMessage");
+
+  if (!uploadedFiles.length) {
+    if (message) message.textContent = "First add your notes or PDF.";
+    fileInput?.click();
+    return;
+  }
+
+  if (message) message.textContent = "Your files are ready. Ask a question below.";
+  document.getElementById("aiChatInput")?.focus();
+});
+
+// Render library files
+function renderFileList() {
+  const fileList = document.getElementById("fileList");
+  if (!fileList) return;
+
   fileList.replaceChildren();
 
-  uploadedFiles.forEach((file, index) => {
+  uploadedFiles.forEach((file) => {
     const item = document.createElement("div");
     item.className = "file-item";
 
@@ -303,34 +209,24 @@ function renderFileList() {
     deleteButton.className = "delete-btn";
     deleteButton.type = "button";
     deleteButton.textContent = "🗑 Delete";
-    deleteButton.setAttribute(
-      "aria-label",
-      "Delete " + file.name
-    );
 
     deleteButton.addEventListener("click", () => {
-      const confirmed = confirm(
-        'Delete "' + file.name + '" from your library?'
+      if (!confirm(`Delete "${file.name}" from your library?`)) return;
+
+      uploadedFiles = uploadedFiles.filter((existing) => existing !== file);
+
+      window.dispatchEvent(
+        new CustomEvent("studybase:file-removed", {
+          detail: { name: file.name }
+        })
       );
 
-      if (!confirmed) {
-        return;
-      }
-
-      uploadedFiles.splice(index, 1);
       updateLibrary();
     });
 
     item.append(name, deleteButton);
-    fileList.appendChild(item);
+    fileList.append(item);
   });
 }
 
-// ----------------------------------------
-// INITIAL STATE
-// ----------------------------------------
-
 updateLibrary();
-
-
-

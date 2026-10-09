@@ -1,134 +1,249 @@
 
+
 "use strict";
 
-require("dotenv").config();
+const API_BASE_URL = "http://127.0.0.1:8000";
 
-const express = require("express");
-const path = require("path");
+document.addEventListener("DOMContentLoaded", () => {
+  const chatForm = document.getElementById("aiChatForm");
+  const chatInput = document.getElementById("aiChatInput");
+  const sendButton = document.getElementById("aiSendButton");
+  const chatMessages = document.getElementById("chatMessages");
+  const chatSourceLabel = document.getElementById("chatSourceLabel");
+  const sourceCount = document.getElementById("sourceCount");
+  const fileList = document.getElementById("fileList");
+  const clearChat = document.getElementById("clearChat");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+  let activePDF = null;
+  let uploading = false;
+  let asking = false;
 
-app.use(express.json({ limit: "2mb" }));
+  function showMessage(role, text, sources = []) {
+    document.getElementById("chatWelcome")?.remove();
 
-// Serve your existing frontend from the project folder.
-app.use(express.static(path.join(__dirname)));
+    const message = document.createElement("div");
+    message.className = `chat-message ${role}`;
 
-app.post("/api/ask", async (req, res) => {
-  try {
-    const { question, pdfText = "", pdfName = "" } = req.body || {};
+    const content = document.createElement("div");
+    content.className = "chat-message-content";
+    content.textContent = text;
+    message.appendChild(content);
 
-    if (typeof question !== "string" || !question.trim()) {
-      return res.status(400).json({
-        error: "Please enter a question."
+    if (sources.length > 0) {
+      const sourceBox = document.createElement("div");
+      sourceBox.className = "chat-message-sources";
+
+      const heading = document.createElement("strong");
+      heading.textContent = "Sources";
+      sourceBox.appendChild(heading);
+
+      sources.forEach((source) => {
+        const sourceText = document.createElement("p");
+        sourceText.textContent =
+          `Page ${source.page}: ${source.text}`;
+        sourceBox.appendChild(sourceText);
       });
+
+      message.appendChild(sourceBox);
     }
 
-    if (question.length > 2000) {
-      return res.status(400).json({
-        error: "Question is too long. Keep it under 2000 characters."
-      });
+    chatMessages.appendChild(message);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    return message;
+  }
+
+  // Listen for files selected by landing_page.js.
+  window.addEventListener("studybase:file-selected", async (event) => {
+    const file = event.detail?.file;
+    if (!file) return;
+
+    if (uploading) {
+      showMessage(
+        "assistant",
+        "Please wait for the current PDF upload to finish."
+      );
+      return;
     }
 
-    if (typeof pdfText !== "string" || typeof pdfName !== "string") {
-      return res.status(400).json({
-        error: "Invalid PDF data."
-      });
+    if (!file.name.toLowerCase().endsWith(".pdf")) {
+      showMessage("assistant", "Only PDF files are supported by the backend.");
+      return;
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-      return res.status(500).json({
-        error: "Gemini API key is missing. Configure GEMINI_API_KEY in .env."
-      });
+    if (file.size > 10 * 1024 * 1024) {
+      showMessage("assistant", "Please choose a PDF smaller than 10 MB.");
+      return;
     }
 
-    // Limit the amount of document text sent to the model.
-    const documentText = pdfText.slice(0, 40000);
+    uploading = true;
+    activePDF = null;
 
-    const instructions = documentText.trim()
-      ? `
-You are StudyBase, an AI study assistant.
+    if (chatSourceLabel) {
+      chatSourceLabel.textContent = `Uploading ${file.name}...`;
+    }
 
-Answer the student's question using the provided study document.
-Explain concepts clearly and in student-friendly language.
-When relevant, mention page numbers found in the document.
-If the document does not contain enough information, say so.
-Do not invent quotations, facts, or page references.
+    showMessage("assistant", `Uploading ${file.name} to the study backend...`);
 
-Document name: ${pdfName || "Uploaded study material"}
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-Document content:
-${documentText}
-`
-      : `
-You are StudyBase, an AI study assistant.
-Answer the student's question clearly and helpfully.
-No PDF has been provided, so answer as a general study assistant.
-Do not claim that you used the student's notes.
-`;
+      const response = await fetch(`${API_BASE_URL}/upload`, {
+        method: "POST",
+        body: formData
+      });
 
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+      const data = await response.json();
 
-    const apiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
-      {
+      if (!response.ok) {
+        throw new Error(data.detail || `Upload failed (${response.status}).`);
+      }
+
+      activePDF = file;
+
+      if (chatSourceLabel) {
+        chatSourceLabel.textContent = data.filename;
+      }
+
+      if (sourceCount) {
+        sourceCount.textContent = "1";
+      }
+
+      if (fileList) {
+        fileList.replaceChildren();
+
+        const item = document.createElement("div");
+        item.className = "file-item";
+
+        const name = document.createElement("span");
+        name.className = "file-name";
+        name.textContent =
+          `${data.filename} — ${data.pages} pages`;
+
+        item.appendChild(name);
+        fileList.appendChild(item);
+      }
+
+      showMessage(
+        "assistant",
+        `PDF uploaded and processed successfully!\n\n` +
+        `File: ${data.filename}\n` +
+        `Pages: ${data.pages}\n` +
+        `Text chunks indexed: ${data.chunks}\n\n` +
+        "You can now ask questions about this PDF."
+      );
+    } catch (error) {
+      activePDF = null;
+
+      if (chatSourceLabel) {
+        chatSourceLabel.textContent = "PDF upload failed";
+      }
+
+      showMessage(
+        "assistant",
+        `Upload failed: ${error.message}\n\n` +
+        "Check that the Python backend is running on port 8000."
+      );
+    } finally {
+      uploading = false;
+    }
+  });
+
+  // Send questions to the Python RAG backend.
+  chatForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const question = chatInput.value.trim();
+
+    if (!question || asking) return;
+
+    if (uploading) {
+      showMessage("assistant", "Please wait until the PDF upload finishes.");
+      return;
+    }
+
+    if (!activePDF) {
+      showMessage("assistant", "Please upload a PDF successfully first.");
+      return;
+    }
+
+    showMessage("user", question);
+    chatInput.value = "";
+
+    asking = true;
+    if (sendButton) sendButton.disabled = true;
+
+    const loading = showMessage("assistant", "Searching your notes...");
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/ask`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: instructions }]
-          },
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: question.trim() }]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.4,
-            maxOutputTokens: 1200
-          }
-        })
+        body: JSON.stringify({ question })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || `Request failed (${response.status}).`);
       }
-    );
 
-    const data = await apiResponse.json();
+      loading.remove();
 
-    if (!apiResponse.ok) {
-      console.error("Gemini API error:", data);
+      showMessage(
+        "assistant",
+        data.answer || "The backend returned an empty answer.",
+        data.sources || []
+      );
+    } catch (error) {
+      loading.remove();
 
-      return res.status(502).json({
-        error:
-          data.error?.message ||
-          "The AI provider could not answer. Check the model and API key."
-      });
+      showMessage(
+        "assistant",
+        `Could not get an answer: ${error.message}`
+      );
+    } finally {
+      asking = false;
+      if (sendButton) sendButton.disabled = false;
+      chatInput.focus();
     }
+  });
 
-    const answer = (data.candidates?.[0]?.content?.parts || [])
-      .map((part) => part.text || "")
-      .join("\n")
-      .trim();
-
-    if (!answer) {
-      return res.status(502).json({
-        error: "The AI returned no text. Please try again."
-      });
+  // Enter sends; Shift+Enter creates a new line.
+  chatInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      chatForm.requestSubmit();
     }
+  });
 
-    return res.json({ answer });
-  } catch (error) {
-    console.error("Backend error:", error);
-
-    return res.status(500).json({
-      error: "Something went wrong while generating the answer."
+  // Suggested questions fill the input.
+  document.querySelectorAll(".suggestion").forEach((button) => {
+    button.addEventListener("click", () => {
+      chatInput.value = button.textContent.trim();
+      chatInput.focus();
     });
-  }
-});
+  });
 
-app.listen(PORT, () => {
-  console.log(`StudyBase running at http://localhost:${PORT}`);
+  // Clear visible messages; keep the uploaded PDF available.
+  clearChat?.addEventListener("click", () => {
+    chatMessages.replaceChildren();
+
+    const welcome = document.createElement("div");
+    welcome.className = "chat-welcome";
+    welcome.id = "chatWelcome";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "What would you like to learn?";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent =
+      "Ask questions about your notes or understand difficult concepts.";
+
+    welcome.append(heading, paragraph);
+    chatMessages.appendChild(welcome);
+  });
 });

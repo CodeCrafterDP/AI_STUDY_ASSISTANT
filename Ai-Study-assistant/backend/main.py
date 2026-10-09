@@ -1,9 +1,8 @@
 
 from pathlib import Path
-
-from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
-
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from backend.rag import (
     create_document_chunks,
     build_embeddings,
@@ -17,6 +16,16 @@ app = FastAPI(
     title="AI Study Assistant API",
     description="Backend API for an AI-powered Study Assistant",
     version="1.0.0",
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 UPLOAD_FOLDER = Path("uploads")
