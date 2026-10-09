@@ -1,0 +1,38 @@
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables and secret keys
+.env
+.env.*
+
+# Allow a safe example configuration
+!.env.example
+
+# Uploaded study PDFs
+uploads/
+
+# Test and coverage files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+
+# Ignore the copied project's secrets and temporary files
+Ai-Study-assistant/.env
+Ai-Study-assistant/.env.*
+!Ai-Study-assistant/.env.example
+Ai-Study-assistant/venv/
+Ai-Study-assistant/.venv/
+Ai-Study-assistant/uploads/
+Ai-Study-assistant/**/__pycache__/

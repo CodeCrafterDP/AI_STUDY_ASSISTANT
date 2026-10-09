@@ -1,0 +1,20 @@
+# Node.js dependencies
+
+Landing-page/node_modules/
+
+# Environment variables and secrets
+
+.env
+.env.*
+!.env.example
+
+# Python
+
+**pycache**/
+*.py[cod]
+venv/
+.venv/
+
+# Uploaded PDFs
+
+Ai-Study-assistant/uploads/
