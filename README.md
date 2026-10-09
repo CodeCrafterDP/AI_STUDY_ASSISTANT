@@ -1,211 +1,288 @@
-::: {align="center"}
-📚 AI Study Assistant
-Study smarter. Stay organized. Learn with confidence.
-An AI-powered study workspace designed to help students organize
-learning materials, review key concepts, practise questions, and plan
-focused study sessions.
-Repository:
-CodeCrafterDP/AI_STUDY_ASSISTANT
-:::
+# 🎓 AI Study Assistant
+
+An AI-powered learning platform designed to help students study smarter, organize their learning goals, and improve productivity through intelligent study tools.
+
+AI Study Assistant aims to bring essential academic tools together in one place, including AI-assisted content summarization, quizzes, study planning, and a user-friendly interface.
+
 ---
-✨ Overview
-Studying often means jumping between lecture notes, summaries, practice
-questions, and to-do lists. AI Study Assistant is being developed to
-bring these study activities together in one student-friendly workspace.
-The project has a modular structure with a Python backend and a separate
-frontend. The goal is to make it easier to work with study materials,
-revise efficiently, and build consistent study habits.
-> **Development status:** This project is under active development. Some
-> pages and interactions may be frontend prototypes, and backend/API
-> integration may still be in progress. Feature availability can differ
-> by branch.
-🎯 Project Goals
-Make study materials easier to review and organize.
-Provide a clear place for study tools and revision workflows.
-Help students practise concepts and identify topics to revisit.
-Support planning and tracking study sessions.
-Keep the frontend modular so features can be connected to backend
-APIs independently.
-🧩 Study Workspace
+
+## 🚀 Project Overview
+
+Students often spend significant time organizing notes, revising topics, and preparing for examinations. AI Study Assistant aims to simplify this process by providing a centralized platform for learning, revision, and study management.
+
+### ✨ Key Features
+
+- **AI-Powered Summarization** — Designed to help students summarize study materials and understand important concepts.
+- **Quiz Module** — A dedicated interface for quiz-based practice and knowledge assessment.
+- **Study Plan Dashboard** — Create and manage study tasks, track progress, and organize weekly learning goals.
+- **User Authentication** — Backend authentication development is being handled as part of the project.
+- **Responsive Frontend** — A structured interface for navigating the platform's study tools.
+- **Backend Integration** — Designed to connect frontend features with backend services and database operations.
+
+> **Development status:** The project is under active development. Feature availability depends on the current implementation and backend integration.
+
 ---
-Area                    Purpose                 Status
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| HTML5 | Frontend structure |
+| CSS3 | Styling and responsive layouts |
+| JavaScript | Frontend interactions |
+| Python | Backend development |
+| FastAPI | Backend API framework, where configured |
+| Database | Data storage through the configured database layer |
+| Git & GitHub | Version control and team collaboration |
+
+The final technology stack may evolve as development continues.
+
 ---
-Ask your notes      Intended for asking     In development; verify
-questions about study   API integration
-materials.
-Summarize           Intended to turn        In development; verify
-learning material into  API integration
-concise revision notes.
-Practice quiz       Intended for            In development; verify
-self-testing and        API integration
-reviewing answers.
-Key topics          Intended to highlight   In development; verify
-important concepts for  API integration
-revision.
-Study plan          Plan sessions, set a    Frontend prototype;
-weekly goal, track      uses browser-local
-completion, and keep    storage
-quick notes.
-🛠️ Technology
-Backend
-Python
-FastAPI (if configured in the current backend)
-SQLAlchemy/database layer (depending on current configuration)
-Pydantic schemas
-Frontend
-HTML5
-CSS3
-JavaScript
-Visual Studio Code Live Server for local frontend preview
-> Confirm the actual dependencies in `requirements.txt` and the current
-> source files before describing additional frameworks or services as
-> part of the stack.
-📁 Repository Structure
-The repository is evolving. The backend-auth branch has included files
-such as:
-``` text
+
+## 📁 Project Structure
+
+```text
 AI_STUDY_ASSISTANT/
-├── .env.example
-├── .gitignore
+│
+├── Landing-page/
+│   ├── landing_page.html
+│   ├── landing_page.css
+│   └── landing_page.js
+│
+├── login-page/
+│   ├── index.html
+│   ├── login.css
+│   └── login.js
+│
+├── Registration/
+│   ├── registration.html
+│   ├── registration.css
+│   └── registration.js
+│
+├── quiz-page/
+│   ├── quiz-index.html
+│   ├── quiz-script.js
+│   └── quiz-style.css
+│
+├── summarize-page/
+│   ├── summarize-page.html
+│   ├── summarize-page.css
+│   └── summarize-page.js
+│
+├── study-plan/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
 ├── main.py
 ├── database.py
 ├── models.py
 ├── schemas.py
-├── requirements.txt
 ├── test_db.py
-└── study-plan/
-    ├── index.html
-    ├── style.css
-    └── script.js
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
 ```
-Other frontend pages may live in separate folders or branches as
-development continues. Update this tree when the repository structure
-changes.
-🚀 Getting Started
-Prerequisites
-Git
-Python version compatible with `requirements.txt`
-Visual Studio Code (recommended)
-Live Server extension for previewing the static frontend
-1. Clone the repository
-``` bash
+
+*Note: The structure above represents the planned/current project organization. Update filenames and folders if your repository differs.*
+
+---
+
+## ⚙️ Getting Started
+
+Follow these steps to run the project locally.
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/CodeCrafterDP/AI_STUDY_ASSISTANT.git
+```
+
+Navigate to the project directory:
+
+```bash
 cd AI_STUDY_ASSISTANT
 ```
-To work on the backend-auth branch:
-``` bash
-git switch feature/backend-auth
+
+### 2. Set up the Python environment
+
+Make sure Python is installed on your system.
+
+Create a virtual environment:
+
+**Windows**
+```bash
+python -m venv .venv
+.venv\Scripts\activate
 ```
-If the branch is not available locally:
-``` bash
-git fetch origin
-git switch --track origin/feature/backend-auth
+
+**macOS / Linux**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 ```
-2. Set up the backend
-From the repository root, create and activate a virtual environment.
-Windows PowerShell
-``` powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-Install dependencies:
-``` powershell
-python -m pip install --upgrade pip
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
-Create a local environment file:
-``` powershell
-Copy-Item .env.example .env
+
+### 4. Configure environment variables
+
+Create your local `.env` file from the example:
+
+**Windows**
+```bash
+copy .env.example .env
 ```
-Open `.env` and fill in the values required by the current backend
-configuration. Never commit the real `.env` file, API keys, passwords,
-database credentials, or tokens.
-If `main.py` exposes a FastAPI application named `app`, the typical
-startup command is:
-``` powershell
+
+**macOS / Linux**
+```bash
+cp .env.example .env
+```
+
+Open `.env` and configure the environment variables required by your backend, such as database connection details and API keys.
+
+**Important:** Never commit your real `.env` file, API keys, passwords, or database credentials to GitHub.
+
+### 5. Start the backend
+
+If `main.py` exposes a FastAPI application named `app`, run:
+
+```bash
 uvicorn main:app --reload
 ```
-When the application is running with the default port and FastAPI docs
-enabled, visit:
-http://127.0.0.1:8000/docs
-http://127.0.0.1:8000/redoc
-3. Run the Study Plan frontend
-The Study Plan prototype is a static HTML/CSS/JavaScript page.
-Open the repository folder in VS Code.
-Open `study-plan/index.html`.
-Right-click the file and choose Open with Live Server.
-Test adding a task, marking it complete, changing the weekly goal,
-and saving a quick note.
-The HTML should reference its companion files using relative paths:
-``` html
-<link rel="stylesheet" href="./style.css">
-<script src="./script.js"></script>
+
+The local API will typically be available at:
+
+```text
+http://127.0.0.1:8000
 ```
-Keep `index.html`, `style.css`, and `script.js` together in the
-`study-plan` folder.
-Current limitation: The Study Plan prototype stores tasks and notes
-in browser `localStorage`. This is local to that browser and is not the
-same as saving data to the backend database. Persistent user-specific
-plans require API integration.
-🔐 Configuration and Security
-Keep secrets in `.env`; commit only `.env.example` with placeholder
-values.
-Never paste API keys, tokens, passwords, or database credentials
-into source code or public issues.
-Validate incoming API data on the server.
-Add authentication and authorization before exposing user-specific
-study plans or notes.
-Use environment-specific configuration for local development and
-deployment.
-Do not assume a frontend-only feature is protected by backend
-authentication.
-🧪 Testing and Verification
-Before submitting changes:
-[ ] Confirm the page loads without browser-console errors.
-[ ] Verify CSS and JavaScript paths.
-[ ] Test the main user interactions.
-[ ] Check backend startup and API documentation, if applicable.
-[ ] Verify database configuration in a local development
-environment.
-[ ] Ensure `.env` and other secrets are not staged for Git.
-[ ] Run the tests supported by the project setup, for example:
-``` bash
+
+If FastAPI documentation is enabled, open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+If your backend uses a different application entry point or startup command, follow the configuration in your source code.
+
+### 6. Run the frontend
+
+Open the relevant HTML file in your browser, or use the **Live Server** extension in Visual Studio Code.
+
+For the Study Plan page, open:
+
+```text
+study-plan/index.html
+```
+
+The standalone Study Plan frontend currently uses browser `localStorage` for its locally managed data. Persistent database storage requires API integration.
+
+---
+
+## 🔗 Frontend and Backend Integration
+
+The project is being developed with a separation between the frontend interface and backend services.
+
+The planned integration workflow is:
+
+1. The frontend sends HTTP requests to backend API endpoints.
+2. The backend validates incoming requests.
+3. Database models and services process the required operations.
+4. The backend returns structured responses.
+5. The frontend updates the interface based on the response.
+
+Before connecting a feature, confirm the API endpoint, HTTP method, request body, response format, and authentication requirements with the team member responsible for backend APIs.
+
+---
+
+## 🔐 Security Considerations
+
+- Store secrets and credentials in environment variables.
+- Keep `.env` out of version control.
+- Validate and sanitize incoming user data.
+- Use appropriate password hashing and authentication practices.
+- Apply authorization checks to protected endpoints.
+- Avoid exposing private user information in API responses.
+- Configure CORS appropriately for the frontend origin.
+
+---
+
+## 🧪 Testing
+
+Run the project's available tests using the test framework configured in the repository.
+
+For example, if the project uses `pytest`:
+
+```bash
 pytest
 ```
-🗺️ Roadmap
-[ ] Connect the Study Plan frontend to create/read/update/delete API
-endpoints.
-[ ] Persist study sessions and weekly goals in the database.
-[ ] Associate plans and notes with authenticated users.
-[ ] Connect study-material upload and document processing.
-[ ] Complete and integrate summarization, quiz, and key-topic
-workflows.
-[ ] Add validation, loading indicators, error states, and empty
-states.
-[ ] Add automated tests for backend endpoints and frontend
-interactions.
-[ ] Document deployment configuration and environment variables.
-[ ] Add screenshots or a demo GIF once the UI is stable.
-🤝 Contributing
-Contributions from teammates are welcome.
-Pull the latest changes from the branch you're working on.
-Create a feature branch when appropriate.
-Keep changes focused and avoid committing unrelated files.
-Test changes locally.
-Use clear commit messages, such as `Add Study Plan frontend`.
-Push your branch and open a pull request if your team uses code
-review.
-For shared branches, coordinate with teammates before pushing or merging
-changes.
-📄 License
-No license has been specified here. Until the project owners choose and
-add a `LICENSE` file, don't assume the repository is open for reuse,
-redistribution, or commercial use.
-👥 Team
-CodeCrafterDP --- AI Study Assistant
-Built collaboratively to explore better ways to organize, practise, and
-improve the student learning experience.
+
+If `pytest` is not installed, or tests use a different framework, follow the project's dependency and testing configuration.
+
+Test API endpoints, database operations, authentication flows, and frontend interactions before merging changes.
+
 ---
-::: {align="center"}
-Made for focused learning, one study session at a time. 📖
-:::
+
+## 🗺️ Future Improvements
+
+- [ ] Complete frontend and backend API integration.
+- [ ] Implement and test user authentication.
+- [ ] Connect study plans to persistent database storage.
+- [ ] Develop AI-powered document and note summarization.
+- [ ] Implement dynamic quizzes and progress tracking.
+- [ ] Add personalized study recommendations.
+- [ ] Improve mobile responsiveness and accessibility.
+- [ ] Add automated tests and deployment configuration.
+
+---
+
+## 👥 Team Collaboration
+
+This project is developed collaboratively using Git and GitHub.
+
+Recommended workflow:
+
+1. Pull the latest changes from the relevant branch.
+2. Create or switch to your assigned feature branch.
+3. Make changes only to the files related to your task.
+4. Test your changes locally.
+5. Commit with a clear, descriptive message.
+6. Push your branch and open a pull request when appropriate.
+
+Example:
+
+```bash
+git checkout feature/backend-auth
+git pull origin feature/backend-auth
+git add .
+git commit -m "Describe your changes"
+git push origin feature/backend-auth
+```
+
+**Tip:** Review `git status` before using `git add .` to ensure you do not accidentally commit unrelated files or secrets.
+
+---
+
+## 🤝 Contributing
+
+Contributions, improvements, bug reports, and feature suggestions are welcome from project collaborators.
+
+Please keep changes focused, document important configuration updates, and test your code before submitting it for review.
+
+---
+
+## 📄 License
+
+No license has been specified yet. Unless a license is added to the repository, reuse and redistribution are subject to the applicable default copyright rules.
+
+---
+
+## 💡 Our Goal
+
+**To make studying more organized, accessible, and productive by combining useful learning tools with AI-powered assistance.**
+
+Built with ❤️ by the AI Study Assistant team.
