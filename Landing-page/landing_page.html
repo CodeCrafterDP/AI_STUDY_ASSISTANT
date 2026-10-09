@@ -109,7 +109,8 @@
         <button class="menu-button" id="menuButton">☰</button>
         <div class="breadcrumb">
           Study desk &nbsp; / &nbsp;
-          <strong id="breadcrumbTitle">Practice quiz</strong>
+
+          <strong id="breadcrumbTitle">Ask For Question</strong>
         </div>
       </div>
 
@@ -118,7 +119,7 @@
           <span class="status-dot"></span>
           Sources stay in your workspace
         </span>
-        <div class="avatar">J</div>
+       
       </div>
     </header>
 
@@ -149,100 +150,79 @@
         </div>
       </section>
 
-      <!-- DASHBOARD -->
-      <section class="dashboard">
+      
+<article class="ai-chat-card">
 
-        <div class="tool-column">
+  <div class="ai-chat-header">
+    <div class="ai-avatar">✦</div>
 
-          <div class="tool-heading">
-            <div>
-              <div class="eyebrow">STUDY TOOL</div>
-              <h2 id="toolTitle">Practice quiz</h2>
-            </div>
+    <div class="ai-chat-heading">
+      <h3>Ask your notes</h3>
+      <p><span class="online-dot"></span> Your personal study assistant</p>
+    </div>
 
-            <button class="source-select" id="sourceSelector">
-              ▤ &nbsp; <span id="selectedCount">0 sources selected</span>
-              &nbsp;⌄
-            </button>
-          </div>
+    <button type="button" class="chat-clear-btn" id="clearChat"
+      title="Clear conversation">↻</button>
+  </div>
 
-          <article class="feature-card">
-            <div class="feature-icon" id="featureIcon">⚒</div>
+  <div class="chat-source-bar">
+    <div>
+      <span class="chat-source-icon">▤</span>
+      <span id="chatSourceLabel">No study source selected</span>
+    </div>
+    <button type="button" id="chatAddSource">+ Add PDF</button>
+  </div>
 
-            <div class="card-label" id="cardLabel">
-              BUILT FROM YOUR SOURCES
-            </div>
+  <div class="chat-messages" id="chatMessages" aria-live="polite">
+    <div class="chat-welcome" id="chatWelcome">
+      <div class="welcome-icon">✦</div>
+      <h3>What would you like to learn?</h3>
+      <p>Ask questions about your notes, understand difficult concepts,
+        or get a simple explanation.</p>
 
-            <h3 id="featureTitle">
-              Practice quiz, with receipts.
-            </h3>
+      <div class="suggested-questions">
+        <button type="button" class="suggestion">
+          Explain the main concepts
+        </button>
+        <button type="button" class="suggestion">
+          Summarize my notes
+        </button>
+        <button type="button" class="suggestion">
+          Give me important questions
+        </button>
+      </div>
+    </div>
+  </div>
 
-            <p id="featureDescription">
-              Build a self-test with an answer key and explanations.
-              Every result stays anchored to the passages you selected.
-            </p>
+  <div class="chat-input-area">
+    <form id="aiChatForm">
+      <textarea
+        id="aiChatInput"
+        rows="1"
+        maxlength="2000"
+        placeholder="Ask anything about your study material..."
+        aria-label="Ask a study question"
+        required
+      ></textarea>
 
-            <div class="feature-actions">
-              <button class="btn-primary" id="startButton">
-                Get started ↗
-              </button>
-
-              <button class="btn-secondary" id="libraryButton">
-                Add study material
-              </button>
-            </div>
-
-            <div id="actionMessage"
-                 style="margin-top:15px;font-size:12px;color:#648b6c;"
-                 aria-live="polite"></div>
-          </article>
-
+      <div class="chat-input-bottom">
+        <div class="chat-input-hint">
+          <span>↵</span> Enter to send · Shift + Enter for new line
         </div>
 
-        <!-- RIGHT SIDE -->
-        <aside class="right-panel">
+        <button type="submit" id="aiSendButton" aria-label="Send message">
+          <span>↑</span>
+        </button>
+      </div>
+    </form>
 
-          <div class="material-card">
-            <div class="panel-heading">
-              <span>YOUR MATERIAL</span>
-              <span>▥</span>
-            </div>
+    <p class="chat-disclaimer">
+      AI responses will be connected when the backend is integrated.
+    </p>
+  </div>
 
-            <div class="material-number">
-              <span id="materialCount">00</span>
-              <small> sources</small>
-            </div>
+</article>
 
-            <p id="materialDescription">
-              0 searchable passages in your library.
-            </p>
-
-            <div class="mini-track">
-              <div id="miniProgress"></div>
-            </div>
-
-            <div class="mini-footer">
-              <span>RETRIEVAL INDEX</span>
-              <span id="indexStatus">WAITING</span>
-            </div>
-          </div>
-
-          <div>
-            <div class="recent-heading">
-              <span>RECENT STUDY GUIDES</span>
-              <span>◷</span>
-            </div>
-
-            <div class="recent-card">
-              <div class="recent-icon">♙</div>
-              <p id="recentMessage">
-                Your first source-linked guide will appear here.
-              </p>
-            </div>
-          </div>
-
-        </aside>
-      </section>
 
       <!-- PROGRESS BAR INSIDE DASHBOARD CONTENT -->
       <section class="progress-section">
@@ -279,6 +259,7 @@
   </main>
 </div>
 
+<script src="ai-chat.js"></script>
 <script src="landing_page.js"></script>
 
 </body>
