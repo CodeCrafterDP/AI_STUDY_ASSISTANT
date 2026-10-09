@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <title>Summarize — Studybase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="summarize-page.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="../Landing-page/landing_page.html"
+          ><span class="brand-icon">♧</span
+          ><span class="brand-name"
+            >studybase<span class="brand-star">✳</span></span
+          ></a
+        >
+        <div class="section-label">STUDY DESK</div>
+        <nav class="nav" aria-label="Study desk navigation">
+          <a class="nav-item" href="../Landing-page/landing_page.html"
+            ><span class="nav-icon">☏</span><span>Ask your notes</span></a
+          >
+          <a class="nav-item active" href="../summarize-page/summarize-page.html" aria-current="page"
+            ><span class="nav-icon">▤</span><span>Summarize</span
+            ><span class="nav-dot"></span
+          ></a>
+          <a class="nav-item" href="../quiz-page/quiz-index.html"
+            ><span class="nav-icon">♧</span><span>Practice quiz</span></a
+          >
+          <a class="nav-item" href="../key-topics-page/index.html"
+            ><span class="nav-icon">◎</span><span>Key topics</span></a
+          >
+          <a class="nav-item" href="../study-plan-page/index.html"
+            ><span class="nav-icon">▧</span><span>Study plan</span></a
+          >
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="section-label">YOUR LIBRARY</div>
+        <div class="library-heading">
+          <div>
+            Study sources <span class="count-pill" id="sourceCount">0</span>
+          </div>
+          <button
+            class="plus-button"
+            id="addSourceButton"
+            aria-label="Add source"
+          >
+            +
+          </button>
+        </div>
+        <label class="upload-card" for="fileInput"
+          ><span class="upload-icon">⇧</span
+          ><span
+            ><strong>Add notes or a text file</strong
+            ><small>Browse .txt or .md files</small></span
+          ></label
+        ><input
+          id="fileInput"
+          type="file"
+          accept=".txt,.md,.text"
+          multiple
+          hidden
+        />
+        <p class="sidebar-hint">
+          Add text notes, then summarize the material for quick revision.
+        </p>
+        <div class="source-list" id="sourceList">
+          <div class="source-empty">
+            <span class="document-icon">▤</span
+            ><span>No sources added yet.</span>
+          </div>
+        </div>
+        <div class="sidebar-bottom">
+          <span class="status-dot"></span> Private to your account
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              class="mobile-menu"
+              id="mobileMenu"
+              aria-label="Open navigation"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              <span>Study desk</span><span class="slash">/</span
+              ><strong>Summarize</strong>
+            </div>
+          </div>
+          <!-- <div class="workspace-status">
+            <span class="status-dot"></span
+            ><span>Sources stay in your workspace</span
+            ><span class="top-avatar">S</span>
+          </div> -->
+        </header>
+        <div class="page-content">
+          <section class="hero">
+            <div class="hero-copy">
+              <div class="eyebrow">
+                <span class="spark">✳</span> YOUR STUDY DESK
+              </div>
+              <h1>Turn long notes<br /><em>into clear ideas.</em></h1>
+              <p>
+                Make your study material easier to revise. Add your text, choose
+                a summary style, and create a concise study guide.
+              </p>
+            </div>
+            <div class="hero-aside">
+              <span class="hero-arrow">↘</span>
+              <div class="hero-step"><b>02</b> / 05</div>
+              <p>Less clutter.<br />More clarity.</p>
+            </div>
+          </section>
+          <div class="section-rule"></div>
+          <section class="summary-layout">
+            <div class="summary-main">
+              <div class="section-heading">
+                <div>
+                  <div class="eyebrow muted">STUDY TOOL</div>
+                  <h2>Summarize your notes</h2>
+                </div>
+                <span class="local-badge"
+                  ><span class="status-dot"></span> Browser demo</span
+                >
+              </div>
+              <section class="summary-card">
+                <div class="card-heading">
+                  <div class="tool-icon">▤</div>
+                  <div>
+                    <span class="tag">SOURCE-BASED STUDY</span>
+                    <h3>What would you like to summarize?</h3>
+                  </div>
+                </div>
+                <label class="field-label" for="sourceText"
+                  >Paste your notes or chapter text</label
+                ><textarea
+                  id="sourceText"
+                  placeholder="Paste your class notes, textbook passage, or study material here…"
+                ></textarea>
+                <div class="input-meta">
+                  <span id="wordCount">0 words</span
+                  ><button class="text-button" id="clearText">
+                    Clear text
+                  </button>
+                </div>
+                <div class="settings-grid">
+                  <div>
+                    <label class="field-label" for="summaryLength"
+                      >Summary length</label
+                    ><select id="summaryLength">
+                      <option value="short">Short — key points only</option>
+                      <option value="medium" selected>
+                        Medium — balanced summary
+                      </option>
+                      <option value="detailed">Detailed — more coverage</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="field-label" for="summaryFormat"
+                      >Output format</label
+                    ><select id="summaryFormat">
+                      <option value="bullets" selected>Bullet points</option>
+                      <option value="paragraph">Paragraph</option>
+                      <option value="revision">Revision notes</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button class="primary-button" id="generateButton">
+                    Generate summary <span>→</span></button
+                  ><button class="send-button" id="sendButton" type="button">
+                    Send <span>➤</span></button
+                  ><button class="secondary-button" id="loadSample">
+                    Try sample text
+                  </button>
+                </div>
+                <p class="disclaimer">
+                  This front-end demo creates an extractive summary in your
+                  browser. Connect an AI backend for semantic, AI-generated
+                  summaries.
+                </p>
+                <div
+                  class="message"
+                  id="message"
+                  role="status"
+                  aria-live="polite"
+                ></div>
+              </section>
+              <section class="output-card" id="outputCard" hidden>
+                <div class="output-header">
+                  <div>
+                    <div class="eyebrow muted">YOUR SUMMARY</div>
+                    <h3 id="outputTitle">Study summary</h3>
+                  </div>
+                  <span class="output-count" id="outputCount"></span>
+                </div>
+                <div id="summaryOutput" class="summary-output"></div>
+                <div class="output-actions">
+                  <button class="secondary-button" id="copyButton">
+                    Copy summary</button
+                  ><button class="secondary-button" id="downloadButton">
+                    Download .txt
+                  </button>
+                </div>
+              </section>
+            </div>
+            <aside class="right-rail">
+              <section class="material-card">
+                <div class="rail-label">
+                  <span>YOUR MATERIAL</span><span class="rail-glyph">∥</span>
+                </div>
+                <div class="material-number">
+                  <span id="materialCount">00</span> <small>sources</small>
+                </div>
+                <p id="materialDescription">
+                  Paste text or add a text file to get started.
+                </p>
+                <div class="material-bar">
+                  <span id="materialBarFill"></span>
+                </div>
+                <div class="material-footer">
+                  <span>STUDY LIBRARY</span><b id="materialStatus">WAITING</b>
+                </div>
+              </section>
+              <section>
+                <div class="rail-section-title">
+                  <span>QUICK TIPS</span><span>◷</span>
+                </div>
+                <div class="tip-card">
+                  <span class="tip-number">01</span>
+                  <div>
+                    <strong>Start with clean notes</strong>
+                    <p>Remove unrelated text for a more focused result.</p>
+                  </div>
+                </div>
+                <div class="tip-card">
+                  <span class="tip-number">02</span>
+                  <div>
+                    <strong>Review key details</strong>
+                    <p>
+                      Check definitions, formulas, and examples against your
+                      source.
+                    </p>
+                  </div>
+                </div>
+                <div class="tip-card">
+                  <span class="tip-number">03</span>
+                  <div>
+                    <strong>Make it your own</strong>
+                    <p>
+                      Use the summary as a revision aid, not a replacement for
+                      learning.
+                    </p>
+                  </div>
+                </div>
+              </section>
+              <section class="study-note">
+                <div class="note-kicker"><span>✳</span> STUDY NOTE NO. 02</div>
+                <p>
+                  Good summaries keep the <em>important ideas</em> and remove
+                  the noise.
+                </p>
+                <small>Read. Reduce. Recall.</small>
+                <div class="note-decoration"></div>
+              </section>
+            </aside>
+          </section>
+          <footer class="page-footer">
+            <strong>studybase<span>✳</span></strong
+            ><span>Make every study session count.</span
+            ><span class="footer-right">✓ &nbsp; Your sources stay yours</span>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../summarize-page/summarize-page.js"></script>
+  </body>
+</html>

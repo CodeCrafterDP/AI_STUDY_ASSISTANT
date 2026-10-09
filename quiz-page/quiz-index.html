@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <title>Practice Quiz — Studybase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../quiz-page/quiz-style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="../Landing-page/landing_page.html"
+          ><span class="brand-mark brand-icon">♧</span
+          ><span class="brand-name"
+            >studybase<span class="brand-star">✳</span></span
+          ></a
+        >
+        <div class="side-label section-label">STUDY DESK</div>
+        <nav class="main-nav nav" aria-label="Study desk navigation">
+          <a class="nav-link nav-item" href="../Landing-page/landing_page.html"
+            ><span class="nav-icon">☏</span><span>Ask your notes</span></a
+          >
+          <a class="nav-link nav-item" href="../summarize-page/index.html"
+            ><span class="nav-icon">▤</span><span>Summarize</span></a
+          >
+          <a class="nav-link nav-item active" href="index.html" aria-current="page"
+            ><span class="nav-icon">♧</span><span>Practice quiz</span
+            ><span class="nav-dot"></span
+          ></a>
+          <a class="nav-link nav-item" href="../key-topics-page/index.html"
+            ><span class="nav-icon">◎</span><span>Key topics</span></a
+          >
+          <a class="nav-link nav-item" href="../study-plan-page/index.html"
+            ><span class="nav-icon">▧</span><span>Study plan</span></a
+          >
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="library-heading">
+          <div>
+            <div class="side-label">YOUR LIBRARY</div>
+            <div class="library-title">
+              Study sources <span class="count-pill" id="sourceCount">0</span>
+            </div>
+          </div>
+          <button
+            class="plus-button"
+            id="addSourceButton"
+            aria-label="Add source"
+          >
+            +
+          </button>
+        </div>
+        <label class="upload-card" for="pdfInput"
+          ><span class="upload-icon">⇧</span
+          ><span
+            ><strong>Add notes or a PDF</strong
+            ><small>Browse files · up to 10 MB each</small></span
+          ></label
+        ><input
+          id="pdfInput"
+          type="file"
+          accept=".pdf,.txt,.md,.doc,.docx"
+          multiple
+          hidden
+        />
+        <p class="sidebar-hint">
+          Select study materials to use as the basis for your study tools.
+        </p>
+        <div class="source-list" id="sourceList">
+          <div class="source-empty">
+            <span class="document-icon">▤</span
+            ><span>No sources added yet.</span>
+          </div>
+        </div>
+        <p class="privacy-note">
+          <span class="status-dot"></span> Private to your account
+        </p>
+        <div class="sidebar-profile">
+          <!-- <div class="avatar">AM</div>
+          <div class="profile-copy">
+            <strong>Abhimanyu Mondal</strong><small>Personal workspace</small>
+          </div>
+          <span class="profile-mark">✳</span>
+        </div> -->
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              class="mobile-menu"
+              id="mobileMenu"
+              aria-label="Open navigation"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              <span>Study desk</span><span class="slash">/</span
+              ><strong>Practice quiz</strong>
+            </div>
+          </div>
+          <!-- <div class="workspace-status">
+            <span class="status-dot"></span
+            ><span class="privacy-text">Sources stay in your workspace</span
+            ><span class="top-avatar">AM</span>
+          </div> -->
+        </header>
+        <div class="page-content">
+          <section class="hero">
+            <div class="hero-copy">
+              <div class="eyebrow">
+                <span class="spark">✳</span> YOUR STUDY DESK
+              </div>
+              <h1>Make your notes<br /><em>work smarter.</em></h1>
+              <p>
+                Bring your course material into focus. Test your understanding,
+                review every answer, and learn with confidence.
+              </p>
+            </div>
+            <div class="hero-aside">
+              <span class="hero-arrow">↘</span>
+              <div class="hero-step"><b>03</b> / 05</div>
+              <p>Practice today.<br />Remember longer.</p>
+            </div>
+          </section>
+          <div class="section-rule"></div>
+          <section class="quiz-layout">
+            <div class="quiz-main">
+              <div class="section-heading">
+                <div>
+                  <div class="eyebrow muted">STUDY TOOL</div>
+                  <h2>Practice quiz</h2>
+                </div>
+                <button class="source-selector" id="sourceSelector">
+                  <span>▤</span
+                  ><span id="selectedSourceText">0 sources selected</span
+                  ><span>⌄</span>
+                </button>
+              </div>
+              <section class="quiz-card" id="quizCard">
+                <div class="quiz-card-top">
+                  <div class="tool-icon">♧</div>
+                  <div class="quiz-meta">
+                    <span class="tag">ACTIVE STUDY TOOL</span
+                    ><span class="meta-dot">·</span
+                    ><span id="quizSourceLabel"
+                      >Sample: Introduction to Machine Learning</span
+                    >
+                  </div>
+                </div>
+                <div class="quiz-intro" id="quizIntro">
+                  <h3>Check what you know.</h3>
+                  <p>
+                    Take a short practice set, choose an answer for each
+                    question, then submit to see your score and clear
+                    explanations. This page currently uses a built-in sample
+                    quiz.
+                  </p>
+                  <div class="quiz-stats">
+                    <div>
+                      <strong id="questionStat">05</strong
+                      ><span>Questions</span>
+                    </div>
+                    <div>
+                      <strong>~ 4 min</strong><span>Estimated time</span>
+                    </div>
+                    <div>
+                      <strong>Instant</strong><span>Answer review</span>
+                    </div>
+                  </div>
+                  <button class="primary-button" id="startQuiz">
+                    <span>✧</span> Start practice quiz
+                    <span class="button-arrow">→</span>
+                  </button>
+                  <div class="helper-line">
+                    <span class="status-dot"></span
+                    ><span
+                      >Sample quiz · PDF-based question generation is not
+                      connected yet.</span
+                    >
+                  </div>
+                </div>
+                <form id="quizForm" class="quiz-form" hidden>
+                  <div class="quiz-progress-row">
+                    <span id="questionProgress"
+                      >QUESTION SET · 05 QUESTIONS</span
+                    ><span id="answeredProgress">0 of 5 answered</span>
+                  </div>
+                  <div
+                    class="progress-track"
+                    id="progressTrack"
+                    role="progressbar"
+                    aria-label="Questions answered"
+                    aria-valuemin="0"
+                    aria-valuemax="5"
+                    aria-valuenow="0"
+                  >
+                    <div class="progress-fill" id="progressFill"></div>
+                  </div>
+                  <div id="questionsContainer"></div>
+                  <div class="quiz-form-footer">
+                    <button type="button" class="text-button" id="resetQuiz">
+                      Start over</button
+                    ><button type="submit" class="primary-button">
+                      Submit answers <span class="button-arrow">→</span>
+                    </button>
+                  </div>
+                  <p class="form-note">
+                    You can change your choices before submitting. Unanswered
+                    questions count as incorrect if you confirm submission.
+                  </p>
+                </form>
+                <section
+                  class="results-panel"
+                  id="resultsPanel"
+                  hidden
+                  aria-live="polite"
+                >
+                  <div class="result-heading">
+                    <div>
+                      <div class="eyebrow muted">YOUR RESULTS</div>
+                      <h3 id="resultTitle">Good work. Keep going.</h3>
+                      <p id="resultMessage"></p>
+                    </div>
+                    <div class="score-ring" id="scoreRing">
+                      <strong id="scorePercent">0%</strong><span>score</span>
+                    </div>
+                  </div>
+                  <div class="score-summary">
+                    <div>
+                      <strong id="correctCount">0</strong><span>Correct</span>
+                    </div>
+                    <div>
+                      <strong id="incorrectCount">0</strong
+                      ><span>Incorrect</span>
+                    </div>
+                    <div>
+                      <strong id="totalCount">5</strong><span>Total</span>
+                    </div>
+                  </div>
+                  <div class="review-heading">
+                    <h4>Answer review</h4>
+                    <span>Every answer, explained</span>
+                  </div>
+                  <div id="answerReview"></div>
+                  <div class="result-actions">
+                    <button
+                      class="secondary-button"
+                      id="retryQuiz"
+                      type="button"
+                    >
+                      Try again</button
+                    ><button
+                      class="primary-button"
+                      id="backToIntro"
+                      type="button"
+                    >
+                      Back to quiz home <span class="button-arrow">→</span>
+                    </button>
+                  </div>
+                </section>
+              </section>
+            </div>
+            <aside class="right-rail">
+              <section class="material-card">
+                <div class="rail-label">
+                  <span>YOUR MATERIAL</span><span class="rail-glyph">∥</span>
+                </div>
+                <div class="material-number">
+                  <span id="materialCount">00</span> <small>sources</small>
+                </div>
+                <p id="passageCount">
+                  Add a file to keep your study materials together.
+                </p>
+                <div class="material-bar">
+                  <span id="materialBarFill"></span>
+                </div>
+                <div class="material-footer">
+                  <span>STUDY LIBRARY</span><b id="materialStatus">WAITING</b>
+                </div>
+              </section>
+              <section class="recent-guides">
+                <div class="rail-section-title">
+                  <span>RECENT STUDY GUIDES</span><span>◷</span>
+                </div>
+                <div class="empty-guide">
+                  <span class="cap-icon">♧</span
+                  ><span id="recentMessage"
+                    >Your source-linked study guides will appear here.</span
+                  >
+                </div>
+              </section>
+              <section class="study-note">
+                <div class="note-kicker"><span>✳</span> STUDY NOTE NO. 03</div>
+                <p>
+                  Better recall starts with asking
+                  <em>your own notes</em> better questions.
+                </p>
+                <small>Small steps count.</small>
+                <div class="note-decoration"></div>
+              </section>
+            </aside>
+          </section>
+          <footer class="page-footer">
+            <strong>studybase<span>✳</span></strong
+            ><span>Answers that show their work.</span
+            ><span class="footer-right">✓ &nbsp; Your sources stay yours</span>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="quiz-script.js"></script>
+  </body>
+</html>
