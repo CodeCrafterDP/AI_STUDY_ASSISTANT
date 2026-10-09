@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studybase — Study Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Studybase home">
+        <span class="brand-mark">♧</span><span>studybase</span>
+      </a>
+      <p class="nav-label">STUDY DESK</p>
+      <nav class="main-nav">
+        <a href="#" class="nav-link"><span class="nav-icon">♧</span> Ask your notes</a>
+        <a href="#" class="nav-link"><span class="nav-icon">▤</span> Summarize</a>
+        <a href="#" class="nav-link"><span class="nav-icon">♙</span> Practice quiz</a>
+        <a href="#" class="nav-link"><span class="nav-icon">◎</span> Key topics</a>
+        <a href="#" class="nav-link active"><span class="nav-icon">▨</span> Study plan <span class="active-dot"></span></a>
+      </nav>
+      <div class="sidebar-divider"></div>
+      <div class="library-head"><p class="nav-label">YOUR LIBRARY</p><button class="plus-btn" title="Add a study source">+</button></div>
+      <div class="sources-row"><span>Study sources</span><span class="count">0</span></div>
+      <label class="upload-box" for="source-file">
+        <span class="upload-icon">⇧</span><strong>Add notes or a PDF</strong>
+        <small>Drop a file or browse · up to 10 MB</small>
+        <input id="source-file" type="file" accept=".pdf,.txt,.doc,.docx" hidden>
+      </label>
+      <p class="sidebar-note">Select sources to ground answers and study tools.</p>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Your workspace is ready</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+        <div class="breadcrumb"><span>Study desk</span><span class="slash">/</span><strong>Study plan</strong></div>
+        <div class="topbar-right"><span class="workspace-status"><i></i> Sources stay in your workspace</span></div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">YOUR STUDY DESK</p>
+            <h1>Make a plan.<br><em>Make progress.</em></h1>
+            <p class="hero-copy">A calmer way to organize your learning. Set your focus, plan your sessions, and keep showing up.</p>
+          </div>
+          <div class="hero-aside"><span class="tiny-arrow">↘</span><p class="step-number">02 <span>/ 04</span></p><p class="aside-quote">Small steps.<br>Stronger habits.</p></div>
+        </section>
+
+        <section class="section-heading">
+          <div><p class="eyebrow">YOUR ROUTINE</p><h2>Study plan</h2></div>
+          <div class="date-chip"><span>◷</span><span id="today-date">Today</span></div>
+        </section>
+
+        <section class="overview-grid">
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">TODAY'S PROGRESS</span><span class="metric-icon coral">↗</span></div>
+            <div class="metric-value"><span id="done-count">0</span><small> / <span id="total-count">0</span> tasks</small></div>
+            <div class="progress-track"><div class="progress-fill" id="today-progress"></div></div>
+            <p class="metric-foot" id="progress-caption">A fresh start. Pick your first task.</p>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">WEEKLY STUDY GOAL</span><span class="metric-icon green">✳</span></div>
+            <div class="metric-value"><span id="hours-done">0</span><small> / <span id="hours-goal">10</span> hours</small></div>
+            <div class="progress-track"><div class="progress-fill green-fill" id="weekly-progress"></div></div>
+            <p class="metric-foot">Your goal is progress, not perfection.</p>
+          </article>
+          <article class="metric-card focus-card">
+            <div class="metric-top"><span class="metric-label">CURRENT FOCUS</span><span class="metric-icon cream">✎</span></div>
+            <p class="focus-subject" id="focus-display">Build a consistent routine</p>
+            <button class="text-button" id="edit-focus">Edit focus <span>↗</span></button>
+          </article>
+        </section>
+
+        <section class="planner-layout">
+          <div class="planner-main">
+            <div class="panel-heading"><div><p class="eyebrow">MAKE IT HAPPEN</p><h3>Today's sessions</h3></div><button class="outline-btn" id="add-task-open">＋ Add task</button></div>
+            <div class="task-list" id="task-list"></div>
+            <div class="empty-state" id="empty-state">
+              <span class="empty-icon">✳</span><h4>Your day, your pace.</h4><p>Add a study task to start building your plan.</p><button class="primary-btn" id="empty-add">Create first task <span>↗</span></button>
+            </div>
+            <div class="weekly-panel">
+              <div class="panel-heading"><div><p class="eyebrow">KEEP YOUR MOMENTUM</p><h3>This week's rhythm</h3></div><span class="week-tag">WEEKLY GOAL</span></div>
+              <div class="week-days" id="week-days"></div>
+              <div class="weekly-footer"><span><i class="legend-dot"></i> Planned study time</span><strong><span id="weekly-summary">0</span> hours planned</strong></div>
+            </div>
+          </div>
+
+          <aside class="right-column">
+            <article class="side-card goal-card">
+              <div class="side-card-head"><span class="eyebrow">YOUR GOAL</span><span class="metric-icon green">◎</span></div>
+              <p class="goal-number"><span id="goal-hours-side">10</span><small> hrs / week</small></p>
+              <p class="muted">Make room for focused learning, one session at a time.</p>
+              <label class="field-label" for="goal-input">Weekly study target</label>
+              <div class="goal-input-row"><input type="number" id="goal-input" min="1" max="80" value="10"><span>hours</span><button id="save-goal" aria-label="Save weekly goal">↗</button></div>
+            </article>
+            <article class="side-card tip-card">
+              <div class="tip-symbol">✦</div><p class="eyebrow">A LITTLE REMINDER</p>
+              <h3>Consistency beats<br><em>cramming.</em></h3>
+              <p class="muted">Try a focused 25-minute session, then take a short break. Give your attention a chance to reset.</p>
+            </article>
+            <article class="side-card notes-card">
+              <div class="side-card-head"><span class="eyebrow">QUICK NOTE</span><span>✎</span></div>
+              <textarea id="quick-note" placeholder="Write down a thought, reminder, or question..."></textarea>
+              <div class="note-saved" id="note-saved">Saved in this browser</div>
+            </article>
+          </aside>
+        </section>
+        <footer class="page-footer"><span>studybase</span><span>One session at a time.</span></footer>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="task-dialog" class="task-dialog">
+    <form id="task-form" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">PLAN A SESSION</p><h3 id="dialog-title">Add a study task</h3></div><button type="button" class="close-dialog" id="close-dialog" aria-label="Close">×</button></div>
+      <label class="field-label" for="task-title">Task name</label><input class="form-input" id="task-title" maxlength="90" placeholder="e.g. Revise Python functions" required>
+      <div class="form-row"><div><label class="field-label" for="task-subject">Subject</label><input class="form-input" id="task-subject" maxlength="40" placeholder="e.g. Python" value="Study"></div><div><label class="field-label" for="task-time">Time</label><input class="form-input" id="task-time" type="time" value="17:00"></div></div>
+      <div class="form-row"><div><label class="field-label" for="task-duration">Duration</label><select class="form-input" id="task-duration"><option value="0.5">30 minutes</option><option value="1" selected>1 hour</option><option value="1.5">1.5 hours</option><option value="2">2 hours</option><option value="3">3 hours</option></select></div><div><label class="field-label" for="task-priority">Priority</label><select class="form-input" id="task-priority"><option>Normal</option><option>High</option><option>Low</option></select></div></div>
+      <input type="hidden" id="task-edit-id">
+      <div class="dialog-actions"><button type="button" class="outline-btn" id="cancel-dialog">Cancel</button><button class="primary-btn" type="submit">Save task <span>↗</span></button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="./script.js"></script>
+</body>
+</html>
